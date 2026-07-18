@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS secrets (
+  id VARCHAR(32) PRIMARY KEY,
+  session_hash VARCHAR(64) NOT NULL,
+  public_description VARCHAR(255) NOT NULL DEFAULT '',
+  content_preview VARCHAR(255) NOT NULL DEFAULT '',
+  status VARCHAR(32) NOT NULL DEFAULT 'active',
+  secret_ciphertext TEXT NOT NULL,
+  secret_nonce VARCHAR(255) NOT NULL,
+  destroy_token_hash VARCHAR(128) NOT NULL UNIQUE,
+  created_at VARCHAR(64) NOT NULL,
+  expires_at VARCHAR(64) NOT NULL,
+  destroyed_at VARCHAR(64) NULL,
+  burn_after_read TINYINT(1) NOT NULL DEFAULT 1,
+  max_views INT NOT NULL DEFAULT 1,
+  views_used INT NOT NULL DEFAULT 0,
+  INDEX idx_secrets_session_created (session_hash, created_at),
+  INDEX idx_secrets_status (status),
+  INDEX idx_secrets_expires_at (expires_at),
+  INDEX idx_secrets_preview (content_preview)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
