@@ -1,0 +1,11 @@
+{
+  "name": "burnvault-hyperdx-style-mvp",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "npx serve . -l 4173"
+  },
+  "devDependencies": {
+    "serve": "^14.2.5"
+  }
+}
