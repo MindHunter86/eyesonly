@@ -1,6 +1,6 @@
-# OneTimeSecret
+# EyesOnly
 
-## OneTimeSecret? What is...
+## EyesOnly? What is...
 
 <div>
   <a href="https://example.com/">
@@ -8,11 +8,11 @@
   </a>
 </div>
 
-**OneTimeSecret** is a project for sharing some short-lived secrets such as passwords, credentials or temporary data.
+**EyesOnly** is a project for sharing some short-lived secrets such as passwords, credentials or temporary data.
 
 To secure your onboarding/registration processes or share any important information with your friend, you can use this software. After sending confidential data, you receive a one-time exchange link. After clicking on this link and verifying some confidential information, all data will be deleted.
 
-Do not use this software as a storage such as a password manager, etc. OneTimeSecret is not a password storage, it is just a useful service for exchanging short-lived data.
+Do not use this software as a storage such as a password manager, etc. EyesOnly is not a password storage, it is just a useful service for exchanging short-lived data.
 
 ### Warning!
 
