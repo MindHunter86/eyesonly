@@ -17,7 +17,7 @@
     ['donate', 'Donate'],
     ['api', 'API'],
     ['admin', 'Admin'],
-    ['ui', 'UI'],
+    // ['ui', 'UI'],
     ['about', 'About'],
   ];
 
