@@ -16,6 +16,8 @@ import (
 	"github.com/MindHunter86/eyesonly/internal/webapp/platform/crypto"
 	"github.com/MindHunter86/eyesonly/internal/webapp/secrets"
 	"github.com/MindHunter86/eyesonly/internal/webapp/sessions"
+	"github.com/MindHunter86/eyesonly/internal/webapp/shared/apperr"
+	"github.com/MindHunter86/eyesonly/internal/webapp/shared/httpx"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/limiter"
 
@@ -277,6 +279,14 @@ func fiberErrorHandler(c *fiber.Ctx, err error) (_ error) {
 	// * but we building anti-ddos solution, so we need allocs minimization
 	// * for responding on invalid requests
 	switch err := err.(type) {
+	case *apperr.Error:
+		c.Status(err.Status)
+		c.Status(err.Status).JSON(httpx.Response{
+			OK: false,
+			Error: &httpx.ErrorBody{
+				Code: string(err.Code), Message: err.Message, Details: err.Details,
+			},
+		})
 	case *fiber.Error:
 		writeJsonErrorFastTo(c, err.Code, err.Message)
 		c.Status(err.Code)
