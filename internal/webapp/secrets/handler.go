@@ -157,7 +157,7 @@ func (h *Handler) sessionFromRequest(c *fiber.Ctx) (sess *sessions.Session, e er
 	var token string
 
 	if token = strings.TrimSpace(c.Get("Authorization")); token == "" {
-		token = strings.TrimSpace(c.Get("X-BurnVault-Session"))
+		token = strings.TrimSpace(c.Get("X-EyesOnly-Session"))
 	}
 
 	return h.sessions.Parse(token)
@@ -169,7 +169,7 @@ func (h *Handler) requireAdmin(c *fiber.Ctx) error {
 	}
 
 	var token string
-	if token = strings.TrimSpace(c.Get("X-BurnVault-Admin-Token")); token == "" {
+	if token = strings.TrimSpace(c.Get("X-EyesOnly-Admin-Token")); token == "" {
 		token = strings.TrimSpace(strings.TrimPrefix(c.Get("Authorization"), "Bearer "))
 	}
 

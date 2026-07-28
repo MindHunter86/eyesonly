@@ -3,13 +3,13 @@
     <div class="panel-heading">
       <div>
         <p class="eyebrow">about</p>
-        <h2>About BurnVault</h2>
+        <h2>About EyesOnly</h2>
       </div>
       <span class="status-pill">frontend MVP</span>
     </div>
     <div class="prose">
       <p>
-        BurnVault is a frontend prototype for creating disposable links to short-lived secrets.
+        EyesOnly is a frontend prototype for creating disposable links to short-lived secrets.
         It demonstrates the screens and interaction model, not production cryptography.
       </p>
       <h3>What this demo shows</h3>

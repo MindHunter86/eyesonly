@@ -2,10 +2,10 @@ import { getSessionToken } from '../stores/session.js';
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
 
-export class BurnVaultApiError extends Error {
+export class EyesOnlyApiError extends Error {
   constructor(message, { code = 'REQUEST_FAILED', status = 0, details = null } = {}) {
     super(message);
-    this.name = 'BurnVaultApiError';
+    this.name = 'EyesOnlyApiError';
     this.code = code;
     this.status = status;
     this.details = details;
@@ -32,7 +32,7 @@ async function request(path, options = {}) {
     headers: {
       Accept: 'application/json',
       ...(hasBody ? { 'Content-Type': 'application/json' } : {}),
-      ...(sessionToken ? { 'X-BurnVault-Session': sessionToken } : {}),
+      ...(sessionToken ? { 'X-EyesOnly-Session': sessionToken } : {}),
       ...options.headers,
     },
   });
@@ -41,7 +41,7 @@ async function request(path, options = {}) {
 
   if (!response.ok || body?.ok === false) {
     const error = body?.error || {};
-    throw new BurnVaultApiError(
+    throw new EyesOnlyApiError(
       error.message || `Request failed with HTTP ${response.status}`,
       {
         code: error.code || 'REQUEST_FAILED',

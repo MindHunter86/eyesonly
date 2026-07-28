@@ -92,8 +92,8 @@
     <Api />
   {:else if route === 'admin'}
     <Admin />
-  {:else if route === 'ui'}
-    <UiKit />
+  <!-- {:else if route === 'ui'}
+    <UiKit /> -->
   {:else if route === 'about'}
     <About />
   {:else}

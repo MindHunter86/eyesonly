@@ -39,12 +39,12 @@
 
 <div class="app-shell">
   <aside class="sidebar" aria-label="Primary navigation">
-    <a class="brand" href="#home" aria-label="BurnVault home" on:click|preventDefault={() => navigate('home')}>
+    <a class="brand" href="#home" aria-label="EyesOnly home" on:click|preventDefault={() => navigate('home')}>
       <div class="brand-mark" aria-hidden="true">
         <img class="brand-logo" src={logoUrl} alt="" />
       </div>
       <div>
-        <div class="brand-name">BurnVault</div>
+        <div class="brand-name">EyesOnly</div>
         <div class="brand-meta">private links</div>
       </div>
     </a>
@@ -120,7 +120,7 @@
     <slot />
 
     <footer class="site-footer">
-      <span>© 2026 BurnVault</span>
+      <span>© 2026 EyesOnly</span>
       <span>Disposable secret sharing frontend MVP</span>
     </footer>
   </main>

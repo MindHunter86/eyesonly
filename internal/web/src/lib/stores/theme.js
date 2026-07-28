@@ -1,6 +1,6 @@
 import { writable, get } from 'svelte/store';
 
-const THEME_KEY = 'burnvault.theme';
+const THEME_KEY = 'eyesonly.theme';
 
 function readTheme() {
   if (typeof localStorage === 'undefined') return 'dark';
