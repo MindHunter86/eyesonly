@@ -267,7 +267,7 @@
     </div>
   </section>
 
-  <section class="panel">
+  <section class="panel" style="display: none;">
     <div class="panel-heading">
       <div>
         <p class="eyebrow">notify</p>

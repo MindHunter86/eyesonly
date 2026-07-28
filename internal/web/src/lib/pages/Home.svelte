@@ -160,7 +160,7 @@
         </div>
       </div>
 
-      <div class="notify-row">
+      <div class="notify-row" style="display: none;">
         <div class="switch-line">
           <input id="notifyOnOpen" type="checkbox" bind:checked={notifyOnOpen} />
           <label for="notifyOnOpen">Notify me when this secret is opened</label>
