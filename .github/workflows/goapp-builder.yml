@@ -68,7 +68,7 @@ jobs:
           APP_JSVERSION: ${{ needs.parse_phase.outputs.BUILD_JSTAG }}
       - run: ls -la . && ls -la ./internal/web/dist
       - name: Upload generated static files
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         with:
           name: goapp_internal_web_dist
           path: ./internal/web/dist
@@ -90,7 +90,7 @@ jobs:
           fetch-depth: 1
           ref: ${{ github.ref }}
       - name: Download generated static files
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: goapp_internal_web_dist
           path: ./internal/web/dist
