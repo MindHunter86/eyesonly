@@ -22,6 +22,8 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/pprof"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/rs/zerolog"
+	"github.com/valyala/fasthttp"
+	"github.com/valyala/fasthttp/expvarhandler"
 	"github.com/valyala/tcplisten"
 
 	db "github.com/MindHunter86/eyesonly/internal/database"
@@ -122,6 +124,11 @@ func (m *Service) fiberMiddlewareInitialization() {
 			utils.Rlog(c, lvl).Msg(c.Request().String())
 		}
 
+		// todo : need some tests in production, revert if causes errs
+		elapsed := time.Since(started)
+		utils.RlogFast(c, lvl, status, elapsed, cause)
+
+		// legacy request logger
 		// utils.Rlog(c, lvl).
 		// 	Int("status", status).
 		// 	Str("method", c.Method()).
@@ -129,10 +136,6 @@ func (m *Service) fiberMiddlewareInitialization() {
 		// 	Str("ip", utils.IPFromFiberRequest(c)).
 		// 	Dur("latency", elapsed).
 		// 	Str("user-agent", c.Get(fiber.HeaderUserAgent)).Msg(cause)
-
-		// todo : need some tests in production, revert if causes errs
-		elapsed := time.Since(started)
-		utils.RlogFast(c, lvl, status, elapsed, cause)
 
 		// stats record
 		ctx := c.UserContext()
@@ -172,35 +175,32 @@ func (m *Service) fiberRouterInitialization() (e error) {
 	//
 
 	// dynamic settings and helpers:
-	// statsToken := utils.UnsafeBytes(gCli.String("http-stats-secret"))
+	statsToken := utils.UnsafeBytes(gCli.String("http-stats-secret"))
 
 	//
 	//	Router handlers configuration
 	//
 
-	// routing base
-	// root := m.fb.Group("/.within.website/x/cmd/" + m.fb.Config().AppName)
-
 	// expvars stats page
-	// internal := root.Group("/internal")
-	// internal.Get("/stats", func(c *fiber.Ctx) error {
-	// 	if !bytes.Equal(c.Request().Header.Peek(fasthttp.HeaderAuthorization), statsToken) {
-	// 		c.Status(fiber.StatusNotFound)
-	// 		return fiber404ErrorHandler(c)
-	// 	}
+	internal := m.fb.Group("/.within.website/x/cmd/internal")
+	internal.Get("/stats", func(c *fiber.Ctx) error {
+		if !bytes.Equal(c.Request().Header.Peek(fasthttp.HeaderAuthorization), statsToken) {
+			c.Status(fiber.StatusNotFound)
+			return fiber404ErrorHandler(c)
+		}
 
-	// 	expvarhandler.ExpvarHandler(c.Context())
-	// 	return nil
-	// })
+		expvarhandler.ExpvarHandler(c.Context())
+		return nil
+	})
 
-	//
 	// APIv1 prepare
-	//
-
 	var database *sql.DB
 	if database, e = db.Open(gCtx); e != nil {
 		return
 	}
+
+	// !!! ACHTUNG !!!
+	// !!! TODO - SHOULD BE IN SERVICE INITIALIZATION!!!
 	// defer database.Close()
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
@@ -233,14 +233,13 @@ func (m *Service) fiberRouterInitialization() (e error) {
 	sessionhand.Register(apiv1)
 	secrethand.Register(apiv1)
 
-	// add healthz and readyz
-	// app.Get("/healthz", func(c *fiber.Ctx) error { return c.JSON(fiber.Map{"status": "ok"}) })
-	// app.Get("/readyz", func(c *fiber.Ctx) error {
-	// 	if e := database.Ping(); e != nil {
-	// 		return err
-	// 	}
-	// 	return c.JSON(fiber.Map{"status": "ready"})
-	// })
+	m.fb.Get("/healthz", func(c *fiber.Ctx) error { return c.JSON(fiber.Map{"status": "ok"}) })
+	m.fb.Get("/readyz", func(c *fiber.Ctx) error {
+		if e := database.Ping(); e != nil {
+			return e
+		}
+		return c.JSON(fiber.Map{"status": "ready"})
+	})
 
 	// index page
 	if e = web.RegisterStatic(m.fb); e != nil {

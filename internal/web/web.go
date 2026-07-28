@@ -30,6 +30,10 @@ func RegisterStatic(app *fiber.App) error {
 		return err
 	})
 
-	app.Use("/", filesystem.New(filesystem.Config{Root: http.FS(dist), Browse: false, Index: "index.html", NotFoundFile: "index.html"}))
+	app.Use("/", filesystem.New(filesystem.Config{
+		Root:         http.FS(dist),
+		Browse:       false,
+		Index:        "index.html",
+		NotFoundFile: "index.html"}))
 	return nil
 }
