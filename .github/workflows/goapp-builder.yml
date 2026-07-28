@@ -66,6 +66,7 @@ jobs:
         env:
           APP_VERSION: ${{ needs.parse_phase.outputs.BUILD_GOTAG }}
           APP_JSVERSION: ${{ needs.parse_phase.outputs.BUILD_JSTAG }}
+          VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL }}
       - run: ls -la . && ls -la ./internal/web/dist
       - name: Upload generated static files
         uses: actions/upload-artifact@v7
