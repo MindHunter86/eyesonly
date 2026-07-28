@@ -173,18 +173,18 @@ jobs:
   #     - name: merge all PGO data
   #       run: go tool pprof -proto extras/pgo/*.pprof > merged.pprof
   #     - name: Build source code for ${{ matrix.goos }} ${{ matrix.goarch }}
-  #       run: go build -pgo=merged.pprof -tags netgo,osusergo -trimpath -ldflags="-s -w -X 'main.version=${{ needs.parse_phase.outputs.BUILD_GOTAG }}' -X 'main.buildtime=${{ needs.parse_phase.outputs.BUILD_GOTIME }}'" -o ./onetimesecret-${{ matrix.goos }}.${{ matrix.goarch }}${{ matrix.extension }} cmd/onetimesecret/*.go
+  #       run: go build -pgo=merged.pprof -tags netgo,osusergo -trimpath -ldflags="-s -w -X 'main.version=${{ needs.parse_phase.outputs.BUILD_GOTAG }}' -X 'main.buildtime=${{ needs.parse_phase.outputs.BUILD_GOTIME }}'" -o ./eyesonly-${{ matrix.goos }}.${{ matrix.goarch }}${{ matrix.extension }} cmd/eyesonly/*.go
   #       env:
   #         GOOS: ${{ matrix.goos }}
   #         GOARCH: ${{ matrix.goarch }}
   #         CGO_ENABLED: 1
   #     - name: Compress binary
-  #       run: upx -9 -k ./onetimesecret-${{ matrix.goos }}.${{ matrix.goarch }}${{ matrix.extension }}
+  #       run: upx -9 -k ./eyesonly-${{ matrix.goos }}.${{ matrix.goarch }}${{ matrix.extension }}
   #     - name: Upload release asset
   #       uses: softprops/action-gh-release@v2
   #       with:
   #         tag_name: ${{ needs.parse_phase.outputs.BUILD_TAG }}
-  #         files: ./onetimesecret-${{ matrix.goos }}.${{ matrix.goarch }}${{ matrix.extension }}
+  #         files: ./eyesonly-${{ matrix.goos }}.${{ matrix.goarch }}${{ matrix.extension }}
 
   # create_sentry_release:
   #   name: Upload sourcemaps to sentry servers
