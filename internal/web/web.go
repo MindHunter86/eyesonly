@@ -10,6 +10,10 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/filesystem"
 )
 
+//go:generate npm ci --include dev --no-audit --no-fund --progress=false
+//go:generate npm run build
+//go:generate ls -la dist/
+
 // Dist contains the built frontend. The directory is intentionally inside this
 // Go package because go:embed cannot embed files from parent directories.
 //
