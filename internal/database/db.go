@@ -21,7 +21,7 @@ func Open(c context.Context) (_ *sql.DB, e error) {
 	}
 
 	dsn := cli.String("database-dsn")
-	if driver == "sqlite" {
+	if driver == "sqlite3" {
 		dsn = fmt.Sprintf("%s?_foreign_keys=on&_journal_mode=WAL&_busy_timeout=5000", dsn)
 	}
 
@@ -30,7 +30,7 @@ func Open(c context.Context) (_ *sql.DB, e error) {
 		return
 	}
 
-	if driver == "sqlite" {
+	if driver == "sqlite3" {
 		database.SetMaxOpenConns(1)
 		database.SetMaxIdleConns(1)
 		database.SetConnMaxLifetime(0)

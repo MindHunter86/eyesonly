@@ -10,7 +10,7 @@
     <div class="donate-layout">
       <div class="prose">
         <p>
-          BurnVault is a small prototype for secure one-time secret sharing. If it saves you a
+          EyesOnly is a small prototype for secure one-time secret sharing. If it saves you a
           little time, you can support development with a coffee-sized donation.
         </p>
         <p>

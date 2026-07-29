@@ -1,5 +1,5 @@
-const SESSION_TOKEN_KEY = 'burnvault.session.jwt';
-const SESSION_HASH_KEY = 'burnvault.session.hash';
+const SESSION_TOKEN_KEY = 'eyesonly.session.jwt';
+const SESSION_HASH_KEY = 'eyesonly.session.hash';
 const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
 
 let pendingSessionRequest = null;

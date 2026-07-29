@@ -10,6 +10,10 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/filesystem"
 )
 
+//go:generate npm ci --include dev --no-audit --no-fund --progress=false
+//go:generate npm run build
+//go:generate ls -la dist/
+
 // Dist contains the built frontend. The directory is intentionally inside this
 // Go package because go:embed cannot embed files from parent directories.
 //
@@ -30,6 +34,10 @@ func RegisterStatic(app *fiber.App) error {
 		return err
 	})
 
-	app.Use("/", filesystem.New(filesystem.Config{Root: http.FS(dist), Browse: false, Index: "index.html", NotFoundFile: "index.html"}))
+	app.Use("/", filesystem.New(filesystem.Config{
+		Root:         http.FS(dist),
+		Browse:       false,
+		Index:        "index.html",
+		NotFoundFile: "index.html"}))
 	return nil
 }

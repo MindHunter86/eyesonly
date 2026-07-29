@@ -3,7 +3,7 @@
   import { notify } from '../stores/toast.js';
 
   let openResult = null;
-  let createSecretText = 'BurnVault API test secret';
+  let createSecretText = 'EyesOnly API test secret';
   let readId = '';
   let revealId = '';
   let destroyToken = '';
@@ -267,7 +267,7 @@
     </div>
   </section>
 
-  <section class="panel">
+  <section class="panel" style="display: none;">
     <div class="panel-heading">
       <div>
         <p class="eyebrow">notify</p>

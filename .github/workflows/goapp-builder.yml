@@ -66,9 +66,10 @@ jobs:
         env:
           APP_VERSION: ${{ needs.parse_phase.outputs.BUILD_GOTAG }}
           APP_JSVERSION: ${{ needs.parse_phase.outputs.BUILD_JSTAG }}
+          VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL }}
       - run: ls -la . && ls -la ./internal/web/dist
       - name: Upload generated static files
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         with:
           name: goapp_internal_web_dist
           path: ./internal/web/dist
@@ -90,7 +91,7 @@ jobs:
           fetch-depth: 1
           ref: ${{ github.ref }}
       - name: Download generated static files
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: goapp_internal_web_dist
           path: ./internal/web/dist
@@ -119,7 +120,7 @@ jobs:
         run: |
           cat <<- EOF | /usr/bin/curl -s -XPOST "https://api.telegram.org/${{ secrets.TGRM_BOT_SECRET }}/sendMessage" \
             -d chat_id="${{ secrets.TGRM_CHAT_ID }}" -d text="$(cat /dev/stdin)" &>/dev/null
-          OneTimeSecret Builder (Github Actions)
+          EyesOnly Builder (Github Actions)
 
           Build ${{ github.run_number }} of job ${{ github.workflow }} has been completed.
           Builded commit: ${{ github.sha }}
@@ -173,18 +174,18 @@ jobs:
   #     - name: merge all PGO data
   #       run: go tool pprof -proto extras/pgo/*.pprof > merged.pprof
   #     - name: Build source code for ${{ matrix.goos }} ${{ matrix.goarch }}
-  #       run: go build -pgo=merged.pprof -tags netgo,osusergo -trimpath -ldflags="-s -w -X 'main.version=${{ needs.parse_phase.outputs.BUILD_GOTAG }}' -X 'main.buildtime=${{ needs.parse_phase.outputs.BUILD_GOTIME }}'" -o ./onetimesecret-${{ matrix.goos }}.${{ matrix.goarch }}${{ matrix.extension }} cmd/onetimesecret/*.go
+  #       run: go build -pgo=merged.pprof -tags netgo,osusergo -trimpath -ldflags="-s -w -X 'main.version=${{ needs.parse_phase.outputs.BUILD_GOTAG }}' -X 'main.buildtime=${{ needs.parse_phase.outputs.BUILD_GOTIME }}'" -o ./eyesonly-${{ matrix.goos }}.${{ matrix.goarch }}${{ matrix.extension }} cmd/eyesonly/*.go
   #       env:
   #         GOOS: ${{ matrix.goos }}
   #         GOARCH: ${{ matrix.goarch }}
   #         CGO_ENABLED: 1
   #     - name: Compress binary
-  #       run: upx -9 -k ./onetimesecret-${{ matrix.goos }}.${{ matrix.goarch }}${{ matrix.extension }}
+  #       run: upx -9 -k ./eyesonly-${{ matrix.goos }}.${{ matrix.goarch }}${{ matrix.extension }}
   #     - name: Upload release asset
   #       uses: softprops/action-gh-release@v2
   #       with:
   #         tag_name: ${{ needs.parse_phase.outputs.BUILD_TAG }}
-  #         files: ./onetimesecret-${{ matrix.goos }}.${{ matrix.goarch }}${{ matrix.extension }}
+  #         files: ./eyesonly-${{ matrix.goos }}.${{ matrix.goarch }}${{ matrix.extension }}
 
   # create_sentry_release:
   #   name: Upload sourcemaps to sentry servers

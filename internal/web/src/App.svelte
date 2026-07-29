@@ -13,7 +13,7 @@
   import Donate from './lib/pages/Donate.svelte';
   import Api from './lib/pages/Api.svelte';
   import Admin from './lib/pages/Admin.svelte';
-  import UiKit from './lib/pages/UiKit.svelte';
+  // import UiKit from './lib/pages/UiKit.svelte';
   import About from './lib/pages/About.svelte';
   import { clearSecrets, secrets } from './lib/stores/secrets.js';
   import { resetSessionId } from './lib/stores/session.js';
@@ -92,8 +92,8 @@
     <Api />
   {:else if route === 'admin'}
     <Admin />
-  {:else if route === 'ui'}
-    <UiKit />
+  <!-- {:else if route === 'ui'}
+    <UiKit /> -->
   {:else if route === 'about'}
     <About />
   {:else}
