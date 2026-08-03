@@ -15,7 +15,7 @@
   import Admin from './lib/pages/Admin.svelte';
   // import UiKit from './lib/pages/UiKit.svelte';
   import About from './lib/pages/About.svelte';
-  import { clearSecrets, secrets } from './lib/stores/secrets.js';
+  import { clearSecrets } from './lib/stores/secrets.js';
   import { resetSessionId } from './lib/stores/session.js';
   import { initTheme } from './lib/stores/theme.js';
   import { notify } from './lib/stores/toast.js';
@@ -54,12 +54,7 @@
   }
 
   function onClearSession() {
-    if ($secrets.length === 0) {
-      notify('Session is already empty.');
-      return;
-    }
-
-    if (!confirm('Reset this browser session id and clear locally cached links?')) return;
+    if (!confirm('Reset this browser session and clear locally cached links?')) return;
     resetSessionId();
     clearSecrets();
     notify('Browser session reset.');

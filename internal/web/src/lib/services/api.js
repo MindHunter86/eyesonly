@@ -1,4 +1,4 @@
-import { getSessionToken } from '../stores/session.js';
+import { clearSessionStorage, getSessionToken } from '../stores/session.js';
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
 
@@ -23,9 +23,15 @@ function normalizeResponse(body) {
   return body;
 }
 
-async function request(path, options = {}) {
+function isSessionRejected(response, error) {
+  if (response.status !== 401 && response.status !== 403) return false;
+  if (!error?.code) return true;
+  return ['SESSION_REQUIRED', 'SESSION_EXPIRED', 'SESSION_INVALID', 'UNAUTHORIZED'].includes(error.code);
+}
+
+async function request(path, options = {}, attempt = 0) {
   const hasBody = options.body !== undefined;
-  const sessionToken = await getSessionToken();
+  const sessionToken = await getSessionToken({ forceNew: attempt > 0 });
 
   const response = await fetch(apiUrl(path), {
     ...options,
@@ -41,6 +47,12 @@ async function request(path, options = {}) {
 
   if (!response.ok || body?.ok === false) {
     const error = body?.error || {};
+
+    if (attempt === 0 && isSessionRejected(response, error)) {
+      clearSessionStorage({ includeLegacyData: false });
+      return request(path, options, 1);
+    }
+
     throw new EyesOnlyApiError(
       error.message || `Request failed with HTTP ${response.status}`,
       {
